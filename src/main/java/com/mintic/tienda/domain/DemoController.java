@@ -7,26 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.mintic.tienda.domain.moduleclothes.exceptions.ManageClothesDomainException;
+import com.mintic.tienda.domain.moduleclothes.impl.ManageClothesDomainImpl;
 import com.mintic.tienda.service.DTO.PrendaDTO;
-import com.mintic.tienda.service.moduleclothes.IManageClothesService;
-import com.mintic.tienda.service.moduleclothes.exceptions.ManagerClothesServiceException;
 
 @Controller
 public class DemoController {
     
+
     @Autowired
-    IManageClothesService iManageClothesService;
+    private ManageClothesDomainImpl manageClothesDomainImpl;
 
-
-    public DemoController(IManageClothesService iManageClothesService) {
-        this.iManageClothesService = iManageClothesService;
-    }
 
     @GetMapping("/guardar/{id}")
-    public String actualizar(@PathVariable("id") Long id, Model model) throws ManagerClothesServiceException {
+    public String actualizar(@PathVariable("id") Long id, Model model) {
         if(id != null && id != 0) {
-            model.addAttribute("prenda", iManageClothesService.getOnePrenda(id));
+            model.addAttribute("prenda", manageClothesDomainImpl.getOnePrenda(id));
         } else {
             model.addAttribute("prenda", new PrendaDTO());
         }
@@ -34,20 +29,20 @@ public class DemoController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(PrendaDTO prendaDTO, Model model) throws ManagerClothesServiceException, ManageClothesDomainException {
-        prendaDTO = iManageClothesService.savePrenda(prendaDTO);
+    public String guardar(PrendaDTO prendaDTO, Model model) {
+        prendaDTO = manageClothesDomainImpl.savePrenda(prendaDTO);
         return "redirect:/inventario";
     }
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable("id") Long id, Model model) {
-        iManageClothesService.deletePrendaById(id);
+        manageClothesDomainImpl.deletePrendaById(id);
         return "redirect:/inventario";
     }
 
     @GetMapping("/inventario")
     public String prendas(Model model) {
-        model.addAttribute("inventario", iManageClothesService.getAllPrendas());
+        model.addAttribute("inventario", manageClothesDomainImpl.getAllPrendas());
         return "inventario";
     }
 

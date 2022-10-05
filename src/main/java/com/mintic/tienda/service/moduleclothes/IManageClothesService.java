@@ -2,17 +2,17 @@ package com.mintic.tienda.service.moduleclothes;
 
 import java.util.List;
 
-import com.mintic.tienda.domain.moduleclothes.exceptions.ManageClothesDomainException;
-import com.mintic.tienda.service.DTO.PrendaDTO;
-import com.mintic.tienda.service.moduleclothes.exceptions.ManagerClothesServiceException;
 
-public interface IManageClothesService {
+import com.mintic.tienda.domain.moduleclothes.IManageClothesDomain;
+import com.mintic.tienda.service.DTO.PrendaDTO;
+
+public interface IManageClothesService extends IManageClothesDomain {
     
-   PrendaDTO savePrenda(PrendaDTO prendaDTO) throws ManagerClothesServiceException, ManageClothesDomainException;
+   PrendaDTO savePrenda(PrendaDTO prendaDTO);
    
    List<PrendaDTO> getAllPrendas();
 
-   PrendaDTO getOnePrenda(Long idPrenda) throws ManagerClothesServiceException;
+   PrendaDTO getOnePrenda(Long idPrenda);
 
    void deletePrendaById(Long idPrenda);
 }
